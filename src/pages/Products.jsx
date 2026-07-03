@@ -429,6 +429,7 @@ function ProductListItem({ product, index }) {
           <img
             src={firstVariant?.image || product.images[0]}
             alt={product.name}
+            loading="lazy"
             className="w-full h-full object-contain transition-all duration-700 group-hover:scale-105"
           />
 

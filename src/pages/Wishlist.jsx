@@ -69,6 +69,7 @@ export default function Wishlist() {
                     <img
                       src={product.variants[0]?.image || product.images[0]}
                       alt={product.name}
+                      loading="lazy"
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     />
                   </div>

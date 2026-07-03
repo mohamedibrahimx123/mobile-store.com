@@ -1,61 +1,28 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import gsap from 'gsap'
 import { HiArrowRight, BsWhatsapp } from '../ui/Icons'
 import MagneticButton from '../ui/MagneticButton'
 import { WHATSAPP_NUMBER } from '../../utils/helpers'
 import { useTranslation } from '../../context/LanguageContext'
+import samsungImage from '../../assets/Samsung-Galaxy-S25-Ultra-Titanium-Black-Premium-Smartphone-1.png'
 
 export default function Hero() {
   const { t, lang } = useTranslation()
   const containerRef = useRef(null)
-  const textRef = useRef(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to('.floating-orb', {
-        y: -30,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      })
-    }, containerRef)
-
-    if (lang !== 'ar') {
-      gsap.fromTo(
-        '.hero-char',
-        { opacity: 0, y: 100, rotateX: -40 },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          duration: 1,
-          stagger: 0.03,
-          ease: 'power4.out',
-        }
-      )
-    }
-
-    return () => ctx.revert()
-  }, [lang])
-
-  const title = t('hero.title')
-  const subtitle = t('hero.subtitle')
   const isArabic = lang === 'ar'
 
   return (
     <section ref={containerRef} className="relative min-h-screen flex items-center overflow-hidden pt-20">
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] animate-float" style={{ animationDelay: '-2s' }} />
-        <div className="absolute top-1/2 right-1/3 w-[300px] h-[300px] bg-secondary/5 rounded-full blur-[80px] animate-float" style={{ animationDelay: '-4s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/10 rounded-full blur-[60px] md:blur-[120px] animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-accent/5 rounded-full blur-[50px] md:blur-[100px] animate-float" style={{ animationDelay: '-2s' }} />
+        <div className="absolute top-1/2 right-1/3 w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-secondary/5 rounded-full blur-[40px] md:blur-[80px] animate-float" style={{ animationDelay: '-4s' }} />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div ref={textRef} className="relative z-10">
+          <div className="relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -98,7 +65,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              {subtitle}
+              {t('hero.subtitle')}
             </motion.p>
 
             <motion.div
@@ -123,22 +90,38 @@ export default function Hero() {
           </div>
 
           <motion.div
-            className="relative hidden lg:flex items-center justify-center"
+            className="relative flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 0.8 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
-            <div className="relative w-[400px] h-[500px]">
-              <div className="floating-orb absolute inset-0 rounded-premium overflow-hidden glow flex items-center justify-center"
+            <div className="relative w-[280px] h-[380px] sm:w-[330px] sm:h-[440px] md:w-[380px] md:h-[490px]">
+              <div
+                className="absolute -inset-4 rounded-premium blur-3xl animate-float"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(0,123,255,0.1), rgba(0,229,255,0.05))',
-                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'linear-gradient(135deg, rgba(0,123,255,0.4), rgba(0,229,255,0.25), rgba(93,169,255,0.15))',
+                }}
+              />
+              <div
+                className="relative w-full h-full rounded-premium p-[2px]"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(0,123,255,0.6), rgba(0,229,255,0.4), rgba(93,169,255,0.3))',
                 }}
               >
-                <div className="text-center p-8">
-                  <div className="text-8xl mb-4">📱</div>
-                  <p className="text-2xl font-heading font-bold gradient-text">Premium</p>
-                  <p className="text-muted text-sm mt-2">{t('hero.subtitle')}</p>
+                <div
+                  className="w-full h-full rounded-[20px] flex items-center justify-center p-3 sm:p-4"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(0,123,255,0.12), rgba(0,229,255,0.06))',
+                  }}
+                >
+                  <img
+                    src={samsungImage}
+                    alt="Samsung Galaxy S25 Ultra"
+                    className="w-full h-full object-contain drop-shadow-2xl"
+                    style={{
+                      filter: 'drop-shadow(0 0 30px rgba(0,123,255,0.2))',
+                    }}
+                  />
                 </div>
               </div>
             </div>

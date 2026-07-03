@@ -98,7 +98,7 @@ export default function Compare() {
                           >
                             <HiX size={14} />
                           </button>
-                          <img src={p.variants[0]?.image || p.images[0]} alt={p.name} className="w-24 h-28 object-cover rounded-xl mx-auto mb-2" />
+                          <img src={p.variants[0]?.image || p.images[0]} alt={p.name} loading="lazy" className="w-24 h-28 object-cover rounded-xl mx-auto mb-2" />
                           <p className="text-sm font-heading font-semibold">{p.name}</p>
                           <p className="text-lg font-bold text-primary mt-1">{formatPrice(getMinPrice(p.variants))}</p>
                         </div>

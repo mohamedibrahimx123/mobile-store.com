@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { HiMenu, HiX, IoHeart, IoGitCompare } from '../ui/Icons'
 import { useTranslation } from '../../context/LanguageContext'
 
@@ -17,10 +17,23 @@ export default function Navbar() {
   ]
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
+    let ticking = false
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50)
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [location])
 
   useEffect(() => {
     setMobileOpen(false)
@@ -97,37 +110,33 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            className="fixed inset-0 z-30 bg-dark/95 backdrop-blur-xl pt-24"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div className="flex flex-col items-center gap-4 p-6">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.path}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: i * 0.05 }}
+      {mobileOpen && (
+        <motion.div
+          className="fixed inset-0 z-30 bg-dark/95 backdrop-blur-xl pt-24"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div className="flex flex-col items-center gap-4 p-6">
+            {navLinks.map((link, i) => (
+              <motion.div
+                key={link.path}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <Link
+                  to={link.path}
+                  className={`text-2xl font-heading font-semibold transition-colors ${
+                    location.pathname === link.path ? 'text-primary' : 'text-white hover:text-primary'
+                  }`}
                 >
-                  <Link
-                    to={link.path}
-                    className={`text-2xl font-heading font-semibold transition-colors ${
-                      location.pathname === link.path ? 'text-primary' : 'text-white hover:text-primary'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  {link.label}
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      )}
     </>
   )
 }

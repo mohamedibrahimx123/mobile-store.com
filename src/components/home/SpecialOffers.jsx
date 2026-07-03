@@ -37,8 +37,8 @@ export default function SpecialOffers() {
           }}
         >
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px] animate-float" />
-            <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[80px] animate-float" style={{ animationDelay: '-3s' }} />
+            <div className="absolute top-0 right-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-primary/10 rounded-full blur-[50px] md:blur-[100px] animate-float" />
+            <div className="absolute bottom-0 left-0 w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-accent/5 rounded-full blur-[40px] md:blur-[80px] animate-float" style={{ animationDelay: '-3s' }} />
           </div>
 
           <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">

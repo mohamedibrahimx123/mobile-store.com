@@ -119,14 +119,14 @@ export default function ProductDetails() {
                     selectedImage === i && !currentVariant?.image ? 'border-primary' : 'border-transparent opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img src={img} alt="" loading="lazy" className="w-full h-full object-cover" />
                 </button>
               ))}
               {currentVariant?.image && (
                 <button
                   className="w-20 h-20 rounded-xl overflow-hidden border-2 border-primary"
                 >
-                  <img src={currentVariant.image} alt="" className="w-full h-full object-cover" />
+                  <img src={currentVariant.image} alt="" loading="lazy" className="w-full h-full object-cover" />
                 </button>
               )}
             </div>

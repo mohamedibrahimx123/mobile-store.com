@@ -184,7 +184,7 @@ export default function HelpMeChoose() {
                 >
                   <Link to={`/products/${product.id}`}>
                     <div className="aspect-[4/3] overflow-hidden">
-                      <img src={product.variants[0]?.image || product.images[0]} alt={product.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                      <img src={product.variants[0]?.image || product.images[0]} alt={product.name} loading="lazy" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                     </div>
                   </Link>
                   <div className="p-5">

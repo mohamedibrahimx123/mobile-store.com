@@ -103,6 +103,7 @@ function ProductCard({ product, index }) {
   }
 
   const handleMouseMove = (e) => {
+    if ('ontouchstart' in window) return
     const el = cardRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()
@@ -140,6 +141,7 @@ function ProductCard({ product, index }) {
         <img
           src={firstVariant?.image || product.images[0]}
           alt={product.name}
+          loading="lazy"
           className="w-full h-full object-contain transition-all duration-700 group-hover:scale-105"
         />
 
