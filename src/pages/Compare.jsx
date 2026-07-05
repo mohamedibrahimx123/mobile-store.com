@@ -26,8 +26,24 @@ export default function Compare() {
     camera: 'الكاميرا',
     os: 'نظام التشغيل',
     network: 'الشبكة',
+    connectivity: 'الاتصال',
+    type: 'النوع',
+    driverSize: 'مقاس السماعة',
+    noiseCancelling: 'عزل الضوضاء',
+    waterResistance: 'مقاومة الماء',
+    material: 'الخامة',
+    compatibility: 'التوافق',
+    features: 'المميزات',
   }
-  const specs = Object.keys(specLabels)
+
+  const specs = useMemo(() => {
+    if (compareProducts.length === 0) return []
+    const keys = new Set()
+    compareProducts.forEach((p) => {
+      if (p.specs) Object.keys(p.specs).forEach((k) => keys.add(k))
+    })
+    return Array.from(keys)
+  }, [compareProducts])
 
   const toggleProduct = (id) => {
     if (selectedIds.includes(id)) {
@@ -42,21 +58,53 @@ export default function Compare() {
       <div className="max-w-7xl mx-auto px-6">
         <SectionHeader title={t('compare.title')} subtitle={t('compare.subtitle')} />
 
-        <div className="flex flex-wrap gap-3 mb-12 justify-center">
-          {products.slice(0, 6).map((product) => (
-            <button
-              key={product.id}
-              onClick={() => toggleProduct(product.id)}
-              className={`px-4 py-2 rounded-full text-sm transition-all border ${
-                selectedIds.includes(product.id)
-                  ? 'bg-primary/10 text-primary border-primary/20'
-                  : 'bg-white/5 text-muted border-white/5 hover:text-white'
-              }`}
-            >
-              {product.name}
-            </button>
-          ))}
-        </div>
+        {selectedIds.length > 0 && (
+          <div className="flex flex-wrap gap-3 mb-6 justify-center">
+            {selectedIds.map((id) => {
+              const p = products.find((pr) => pr.id === id)
+              return (
+                <button
+                  key={id}
+                  onClick={() => toggleProduct(id)}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm bg-primary/10 text-primary border border-primary/20 transition-all hover:bg-primary/20"
+                >
+                  {p?.name}
+                  <HiX size={14} />
+                </button>
+              )
+            })}
+          </div>
+        )}
+
+        {selectedIds.length < 3 && (
+          <div className="mb-12">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {products
+                .filter((p) => !selectedIds.includes(p.id))
+                .map((product) => (
+                  <button
+                    key={product.id}
+                    onClick={() => toggleProduct(product.id)}
+                    className="group flex flex-col items-center gap-2 p-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-primary/10 hover:border-primary/30 transition-all duration-300"
+                  >
+                    <div className="w-full aspect-[3/4] rounded-xl overflow-hidden bg-black/20 flex items-center justify-center p-2">
+                      <img
+                        src={product.variants[0]?.image || product.images[0]}
+                        alt={product.name}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <span className="text-xs text-muted group-hover:text-white text-center line-clamp-2 leading-relaxed">
+                      {product.name}
+                    </span>
+                  </button>
+                ))}
+            </div>
+            {products.filter((p) => !selectedIds.includes(p.id)).length === 0 && (
+              <p className="text-center text-muted mt-6">{t('compare.noMore')}</p>
+            )}
+          </div>
+        )}
 
         {compareProducts.length < 2 ? (
           <motion.div
@@ -110,19 +158,16 @@ export default function Compare() {
                   {specs.map((spec, i) => (
                     <tr key={spec} className={i % 2 === 0 ? 'bg-white/[0.02]' : ''}>
                       <td className="p-4 text-sm text-muted">
-                        {specLabels[spec]}
+                        {specLabels[spec] || spec}
                       </td>
                       {compareProducts.map((p) => {
-                        const values = compareProducts.map((cp) => cp.specs[spec])
-                        const best = values.filter((v) => v !== undefined)
-                        const isBest = p.specs[spec] === best.sort().slice(-1)[0]
+                        const value = p.specs?.[spec]
                         return (
                           <td
                             key={p.id}
-                            className={`p-4 text-sm text-center ${isBest ? 'text-primary font-medium' : ''}`}
+                            className={`p-4 text-sm text-center ${value ? '' : 'text-muted/40'}`}
                           >
-                            {p.specs[spec]}
-                            {isBest && <span className="block text-xs text-primary mt-0.5">{t('compare.best')}</span>}
+                            {value || '—'}
                           </td>
                         )
                       })}
