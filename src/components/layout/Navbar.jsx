@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { HiMenu, HiX, IoHeart, IoGitCompare } from '../ui/Icons'
+import { IoHeart, IoGitCompare } from '../ui/Icons'
 import { useTranslation } from '../../context/LanguageContext'
 
 export default function Navbar() {
@@ -38,6 +38,8 @@ export default function Navbar() {
   useEffect(() => {
     setMobileOpen(false)
   }, [location])
+
+  const lineClass = 'block absolute h-[2px] bg-current rounded-full transition-all duration-300'
 
   return (
     <>
@@ -101,9 +103,20 @@ export default function Navbar() {
               </button>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="md:hidden w-10 h-10 rounded-full flex items-center justify-center text-muted hover:text-white hover:bg-white/5 transition-all"
+                className="md:hidden relative w-10 h-10 rounded-full flex items-center justify-center text-muted hover:text-white hover:bg-white/5 transition-all"
+                aria-label="Toggle menu"
               >
-                {mobileOpen ? <HiX size={22} /> : <HiMenu size={22} />}
+                <span className="relative inline-block w-5 h-5">
+                  <span
+                    className={`${lineClass} left-0 w-5 ${mobileOpen ? 'top-1/2 -translate-y-1/2 rotate-45' : 'top-0'}`}
+                  />
+                  <span
+                    className={`${lineClass} left-0 w-5 top-1/2 -translate-y-1/2 ${mobileOpen ? 'opacity-0' : ''}`}
+                  />
+                  <span
+                    className={`${lineClass} left-0 w-5 ${mobileOpen ? 'top-1/2 -translate-y-1/2 -rotate-45' : 'bottom-0'}`}
+                  />
+                </span>
               </button>
             </div>
           </div>
@@ -112,29 +125,33 @@ export default function Navbar() {
 
       {mobileOpen && (
         <motion.div
-          className="fixed inset-0 z-30 bg-dark/95 backdrop-blur-xl pt-24"
+          className="fixed inset-0 z-30 bg-dark/95 backdrop-blur-xl pt-28"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <div className="flex flex-col items-center gap-4 p-6">
+          <nav className="flex flex-col items-center gap-3 px-6">
             {navLinks.map((link, i) => (
               <motion.div
                 key={link.path}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
+                className="w-full max-w-xs"
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileTap={{ scale: 0.97 }}
               >
                 <Link
                   to={link.path}
-                  className={`text-2xl font-heading font-semibold transition-colors ${
-                    location.pathname === link.path ? 'text-primary' : 'text-white hover:text-primary'
+                  className={`block w-full text-center py-4 px-6 rounded-2xl text-lg font-heading font-semibold transition-all duration-300 ${
+                    location.pathname === link.path
+                      ? 'bg-primary/15 text-primary border border-primary/30'
+                      : 'bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20'
                   }`}
                 >
                   {link.label}
                 </Link>
               </motion.div>
             ))}
-          </div>
+          </nav>
         </motion.div>
       )}
     </>

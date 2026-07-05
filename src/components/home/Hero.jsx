@@ -22,7 +22,7 @@ export default function Hero() {
 
       <div className="relative max-w-7xl mx-auto px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="relative z-10 order-2 lg:order-1 text-center lg:text-right">
+          <div className="relative z-10 order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -33,16 +33,16 @@ export default function Hero() {
               {t('hero.badge')}
             </motion.div>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-7">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold  mb-7">
               {isArabic ? (
                 <motion.span
                   initial={{ opacity: 0, y: 40 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
-                  <div>وجهتك الممتازة</div>
+                  <span>وجهتك الممتازة</span>
                   <div className="w-13 h-0.5 mx-auto my-1 rounded-full" />
-                  <div className="text-4xl md:text-5xl lg:text-6xl">للهواتف المحمولة</div>
+                  <span className="text-4xl md:text-5xl lg:text-6xl">للهواتف المحمولة</span>
                 </motion.span>
               ) : (
                 <motion.span
@@ -50,15 +50,17 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
-                  <div className="text-4xl md:text-5xl lg:text-6xl">Your Premium</div>
+                  <span className="text-4xl md:text-5xl lg:text-6xl">Your Premium</span>
                   <div className="w-16 h-0.5 bg-primary/60 mx-auto my-4 rounded-full" />
-                  <div className="text-4xl md:text-5xl lg:text-6xl">Mobile Destination</div>
+                  <span className="text-4xl md:text-5xl lg:text-6xl">Mobile Destination</span>
                 </motion.span>
               )}
             </h1>
 
+
+
             <motion.p
-              className="text-lg md:text-xl text-muted max-w-lg mb-10 leading-relaxed mx-auto lg:mx-0"
+              className="text-lg md:text-xl text-muted max-w-lg mb-10 leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
@@ -67,7 +69,7 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
-              className="flex flex-wrap gap-4 justify-center lg:justify-start"
+              className="flex flex-wrap gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -134,16 +136,16 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-        >
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
-            <div className="w-1.5 h-3 rounded-full bg-primary animate-bounce" />
-          </div>
-        </motion.div> */}
+              {/* <motion.div
+                className="absolute bottom-8 left-1/2 -translate-x-1/2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 }}
+              >
+                <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-1.5">
+                  <div className="w-1.5 h-3 rounded-full bg-primary animate-bounce" />
+                </div>
+              </motion.div> */}
       </div>
     </section>
   )

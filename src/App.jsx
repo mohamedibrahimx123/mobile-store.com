@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
@@ -14,9 +14,14 @@ import Admin from './pages/admin/Admin'
 
 function App() {
   const location = useLocation()
+  const lenisRef = useRef(null)
 
   useEffect(() => {
-    window.scrollTo(0, 0)
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true })
+    } else {
+      window.scrollTo(0, 0)
+    }
   }, [location.pathname])
 
   useEffect(() => {
@@ -29,6 +34,7 @@ function App() {
       wheelMultiplier: 1,
       smoothWheel: true,
     })
+    lenisRef.current = lenis
 
     function raf(time) {
       lenis.raf(time)
@@ -36,7 +42,10 @@ function App() {
     }
     requestAnimationFrame(raf)
 
-    return () => lenis.destroy()
+    return () => {
+      lenis.destroy()
+      lenisRef.current = null
+    }
   }, [])
 
   const isAdmin = location.pathname.startsWith('/admin')
